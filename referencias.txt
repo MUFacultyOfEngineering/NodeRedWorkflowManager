@@ -1,0 +1,14 @@
+Referencias BPMN
+
+Guía en castellano
+file:///C:/Users/flarrinaga.MONDRAGON/Downloads/BPMN_2_0_Manual_de_Referencia_y_Guia_Pra.pdf
+
+Presentación muy intuitiva
+file:///C:/Users/flarrinaga.MONDRAGON/Downloads/Sistemas_de_Informacion_Administrativos.pdf
+
+
+Video explicación sobre start, end and intermidiate events for BPMN
+https://www.youtube.com/watch?v=een75yz_98w
+
+Another one https://www.youtube.com/watch?v=tOl8ktqKkvE Aquí se menciona que los intermediate Events throw y catch tienen que estar en el mismo proceso
+

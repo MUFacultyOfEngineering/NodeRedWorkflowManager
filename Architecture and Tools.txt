@@ -1,5 +1,3 @@
-# NodeRed_Workflow_BPMN
-
 See architecture and modules in WorkflowManager.pptx
 
 1. Data Base MySQL
