@@ -1,0 +1,230 @@
+[
+    {
+        "id": "980fa1c2.5bfa7",
+        "type": "tab",
+        "label": "Workflow Dashboard",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "3e5c8a04.cc69c6",
+        "type": "ui_table",
+        "z": "980fa1c2.5bfa7",
+        "group": "1ebe6305.3aa6ad",
+        "name": "Process",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "columns": [
+            {
+                "field": "name",
+                "title": "Process",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "id",
+                "title": "Instance",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "status",
+                "title": "Status",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 740,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "243e97b1.4865b8",
+        "type": "function",
+        "z": "980fa1c2.5bfa7",
+        "name": "Update End Event",
+        "func": "var str1= \"SELECT process.name, process_instance.id, process_instance.status FROM process_instance INNER JOIN process ON process.id=process_instance.process_id;\";\nmsg.topic=str1;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 250,
+        "y": 180,
+        "wires": [
+            [
+                "db22c994.5750b8"
+            ]
+        ]
+    },
+    {
+        "id": "db22c994.5750b8",
+        "type": "mysql",
+        "z": "980fa1c2.5bfa7",
+        "mydb": "6cf75f29.e3fd6",
+        "name": "SelectProcessInstanceStatus",
+        "x": 500,
+        "y": 180,
+        "wires": [
+            [
+                "3e5c8a04.cc69c6"
+            ]
+        ]
+    },
+    {
+        "id": "8c44ac8.e0fb05",
+        "type": "function",
+        "z": "980fa1c2.5bfa7",
+        "name": "Update End Event",
+        "func": "var str1= \"SELECT `instance_id`,`bpmn_id`,`status` FROM `active_task` WHERE `status`!= 'Finished_Treated' ORDER BY `instance_id`;\";\nmsg.topic=str1;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 250,
+        "y": 300,
+        "wires": [
+            [
+                "7f0c7ebc.4aaf1"
+            ]
+        ]
+    },
+    {
+        "id": "7f0c7ebc.4aaf1",
+        "type": "mysql",
+        "z": "980fa1c2.5bfa7",
+        "mydb": "6cf75f29.e3fd6",
+        "name": "SelectActiveTasks",
+        "x": 470,
+        "y": 300,
+        "wires": [
+            [
+                "2d23a782.60f498"
+            ]
+        ]
+    },
+    {
+        "id": "92e8a3ca.ae6ff",
+        "type": "inject",
+        "z": "980fa1c2.5bfa7",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 70,
+        "y": 240,
+        "wires": [
+            [
+                "8c44ac8.e0fb05",
+                "243e97b1.4865b8"
+            ]
+        ]
+    },
+    {
+        "id": "2d23a782.60f498",
+        "type": "ui_table",
+        "z": "980fa1c2.5bfa7",
+        "group": "c1d41750.4930d8",
+        "name": "Instance Running",
+        "order": 1,
+        "width": "6",
+        "height": "6",
+        "columns": [
+            {
+                "field": "instance_id",
+                "title": "Instance",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "bpmn_id",
+                "title": "Active Task",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            },
+            {
+                "field": "status",
+                "title": "Status of Task",
+                "width": "",
+                "align": "center",
+                "formatter": "plaintext",
+                "formatterParams": {
+                    "target": "_blank"
+                }
+            }
+        ],
+        "outputs": 0,
+        "cts": false,
+        "x": 770,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "1ebe6305.3aa6ad",
+        "type": "ui_group",
+        "name": "Instances",
+        "tab": "2d3c18ea.7ea3d8",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": true
+    },
+    {
+        "id": "6cf75f29.e3fd6",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "localhost",
+        "port": "3306",
+        "db": "process",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "c1d41750.4930d8",
+        "type": "ui_group",
+        "name": "Active Tasks",
+        "tab": "2d3c18ea.7ea3d8",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": true
+    },
+    {
+        "id": "2d3c18ea.7ea3d8",
+        "type": "ui_tab",
+        "name": "Process Instances",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
