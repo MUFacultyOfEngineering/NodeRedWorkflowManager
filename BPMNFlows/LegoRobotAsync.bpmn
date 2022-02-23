@@ -3,7 +3,7 @@
   <process id="LegoRobotAsync" name="Lego Robot Async" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <endEvent id="endevent1" name="End"></endEvent>
-    <serviceTask id="servicetaskMoveLeft" name="MoveLeft" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+    <serviceTask id="servicetaskMoveLeft" name="MoveLeft" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
       <extensionElements>
         <activiti:field name="serviceURL">
           <activiti:string>http://192.168.43.11:5000/robot/move_left</activiti:string>
@@ -24,8 +24,12 @@
       </extensionElements>
     </serviceTask>
     <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="servicetaskMoveLeft"></sequenceFlow>
-    <sequenceFlow id="flow6" sourceRef="servicetaskMoveLeft" targetRef="servicetaskThrowPiece"></sequenceFlow>
     <sequenceFlow id="flow7" sourceRef="servicetaskThrowPiece" targetRef="endevent1"></sequenceFlow>
+    <startEvent id="messagestartevent1" name="FinishedTask">
+      <messageEventDefinition></messageEventDefinition>
+    </startEvent>
+    <sequenceFlow id="flow8" sourceRef="servicetaskMoveLeft" targetRef="messagestartevent1"></sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="messagestartevent1" targetRef="servicetaskThrowPiece"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_LegoRobotAsync">
     <bpmndi:BPMNPlane bpmnElement="LegoRobotAsync" id="BPMNPlane_LegoRobotAsync">
@@ -39,19 +43,26 @@
         <omgdc:Bounds height="55.0" width="105.0" x="150.0" y="310.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetaskThrowPiece" id="BPMNShape_servicetaskThrowPiece">
-        <omgdc:Bounds height="55.0" width="105.0" x="440.0" y="310.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="450.0" y="318.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messagestartevent1" id="BPMNShape_messagestartevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="322.0" y="320.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
         <omgdi:waypoint x="97.0" y="279.0"></omgdi:waypoint>
         <omgdi:waypoint x="202.0" y="310.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow6" id="BPMNEdge_flow6">
-        <omgdi:waypoint x="255.0" y="337.0"></omgdi:waypoint>
-        <omgdi:waypoint x="440.0" y="337.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow7" id="BPMNEdge_flow7">
-        <omgdi:waypoint x="545.0" y="337.0"></omgdi:waypoint>
+        <omgdi:waypoint x="555.0" y="345.0"></omgdi:waypoint>
         <omgdi:waypoint x="700.0" y="335.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="255.0" y="337.0"></omgdi:waypoint>
+        <omgdi:waypoint x="322.0" y="337.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="357.0" y="337.0"></omgdi:waypoint>
+        <omgdi:waypoint x="450.0" y="345.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
