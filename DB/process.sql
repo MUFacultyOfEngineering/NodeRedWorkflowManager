@@ -56,7 +56,7 @@ CREATE TABLE `process` (
 
 CREATE TABLE `process_instance` (
   `id` int(11) NOT NULL,
-  `satus` varchar(20) NOT NULL,
+  `status` varchar(20) NOT NULL,
   `process_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
