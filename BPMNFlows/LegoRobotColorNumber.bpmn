@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/legorobotasync">
+  <message id="MoveFinished" name="MoveFinished"></message>
+  <message id="PieceThrown" name="PieceThrown"></message>
+  <message id="ProcessFinished" name="ProcessFinished"></message>
+  <process id="LegoRobotColorNumber" name="Lego Color Number" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <serviceTask id="servicetaskMoveLeft" name="MoveLeft" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robot/move_left_async_color_number?color=Red&amp;number=2</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="servicetaskMoveLeft"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent1" name="TareaFinalizada">
+      <messageEventDefinition messageRef="ProcessFinished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow8" sourceRef="servicetaskMoveLeft" targetRef="messageintermediatecatchevent1"></sequenceFlow>
+    <sequenceFlow id="flow9" sourceRef="messageintermediatecatchevent1" targetRef="endevent1"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_LegoRobotColorNumber">
+    <bpmndi:BPMNPlane bpmnElement="LegoRobotColorNumber" id="BPMNPlane_LegoRobotColorNumber">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="20.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="470.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetaskMoveLeft" id="BPMNShape_servicetaskMoveLeft">
+        <omgdc:Bounds height="55.0" width="105.0" x="160.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent1" id="BPMNShape_messageintermediatecatchevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="310.0" y="250.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
+        <omgdi:waypoint x="55.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="160.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow8" id="BPMNEdge_flow8">
+        <omgdi:waypoint x="265.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="310.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow9" id="BPMNEdge_flow9">
+        <omgdi:waypoint x="345.0" y="267.0"></omgdi:waypoint>
+        <omgdi:waypoint x="470.0" y="267.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
