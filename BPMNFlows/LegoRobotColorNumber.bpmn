@@ -6,7 +6,7 @@
   <process id="LegoRobotColorNumber" name="Lego Color Number" isExecutable="true">
     <startEvent id="startevent1" name="Start"></startEvent>
     <endEvent id="endevent1" name="End"></endEvent>
-    <serviceTask id="servicetaskMoveLeft" name="MoveLeft" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+    <serviceTask id="servicetaskSelectPieces" name="SelectPieces" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
       <extensionElements>
         <activiti:field name="serviceURL">
           <activiti:string>http://localhost:1880/robot/move_left_async_color_number?color=Red&amp;number=2</activiti:string>
@@ -16,11 +16,11 @@
         </activiti:field>
       </extensionElements>
     </serviceTask>
-    <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="servicetaskMoveLeft"></sequenceFlow>
+    <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="servicetaskSelectPieces"></sequenceFlow>
     <intermediateCatchEvent id="messageintermediatecatchevent1" name="TareaFinalizada">
       <messageEventDefinition messageRef="ProcessFinished"></messageEventDefinition>
     </intermediateCatchEvent>
-    <sequenceFlow id="flow8" sourceRef="servicetaskMoveLeft" targetRef="messageintermediatecatchevent1"></sequenceFlow>
+    <sequenceFlow id="flow8" sourceRef="servicetaskSelectPieces" targetRef="messageintermediatecatchevent1"></sequenceFlow>
     <sequenceFlow id="flow9" sourceRef="messageintermediatecatchevent1" targetRef="endevent1"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_LegoRobotColorNumber">
@@ -31,7 +31,7 @@
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="470.0" y="250.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="servicetaskMoveLeft" id="BPMNShape_servicetaskMoveLeft">
+      <bpmndi:BPMNShape bpmnElement="servicetaskSelectPieces" id="BPMNShape_servicetaskSelectPieces">
         <omgdc:Bounds height="55.0" width="105.0" x="160.0" y="240.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent1" id="BPMNShape_messageintermediatecatchevent1">
