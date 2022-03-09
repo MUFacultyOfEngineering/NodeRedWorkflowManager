@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
+  <message id="DownFinished" name="Down Finished"></message>
+  <message id="UpFinished" name="Up Finished"></message>
+  <message id="HandOpened" name="Hand Opened"></message>
+  <message id="HandClosed" name="Hand Closed"></message>
+  <message id="LeftFinished" name="Left Finished"></message>
+  <message id="RightFinished" name="Right Finished"></message>
+  <message id="Down2Finished" name="Down2Finished"></message>
+  <message id="Up2Finished" name="Up2 Finished"></message>
+  <message id="Left2Finished" name="Left 2 Finished"></message>
+  <message id="Right2Finished" name="Right 2 Finished"></message>
+  <message id="Down3Finished" name="Down 3 Finished"></message>
+  <message id="HandClosed2" name="Hand Closed 2"></message>
+  <message id="Up3Finished" name="Up 3 Finished"></message>
+  <message id="Right3Finished" name="Right 3 Finished"></message>
+  <message id="Down4Finished" name="Down 4 Finshed"></message>
+  <message id="HandOpened2" name="Hand Opened 2"></message>
+  <message id="Up4Finished" name="Up 4 Finished"></message>
+  <process id="MovePiece" name="Move Piece 2" isExecutable="true">
+    <startEvent id="startevent1" name="Start"></startEvent>
+    <serviceTask id="MoveDown" name="Move Down" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/move_down</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="CloseHand" name="Close Hand" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/close_hand</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <intermediateCatchEvent id="messageintermediatecatchevent1" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="DownFinished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="messageintermediatecatchevent2" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="HandClosed"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="messageintermediatecatchevent3" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="UpFinished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <serviceTask id="MoveUp" name="Move Up" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/move_up</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="MoveDown2" name="Move Down2" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/move_down</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <intermediateCatchEvent id="messageintermediatecatchevent5" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="Down2Finished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow12" sourceRef="MoveDown2" targetRef="messageintermediatecatchevent5"></sequenceFlow>
+    <serviceTask id="OpenHand" name="Open Hand" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/open_hand</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow13" sourceRef="messageintermediatecatchevent5" targetRef="OpenHand"></sequenceFlow>
+    <serviceTask id="MoveUp2" name="Move Up2" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/move_up</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <intermediateCatchEvent id="messageintermediatecatchevent6" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="HandOpened"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow14" sourceRef="OpenHand" targetRef="messageintermediatecatchevent6"></sequenceFlow>
+    <sequenceFlow id="flow15" sourceRef="messageintermediatecatchevent6" targetRef="MoveUp2"></sequenceFlow>
+    <serviceTask id="MoveRight2" name="Move Right 2" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/turn_right?limitDown=10&amp;limitUp=40</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <intermediateCatchEvent id="messageintermediatecatchevent7" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="Up2Finished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow16" sourceRef="MoveUp2" targetRef="messageintermediatecatchevent7"></sequenceFlow>
+    <endEvent id="endevent1" name="End"></endEvent>
+    <intermediateCatchEvent id="messageintermediatecatchevent9" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="RightFinished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <serviceTask id="MoveRight" name="Move Right" activiti:async="true" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/turn_right?limitDown=-265&amp;limitUp=-295</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow27" sourceRef="startevent1" targetRef="MoveRight2"></sequenceFlow>
+    <sequenceFlow id="flow28" sourceRef="MoveRight2" targetRef="messageintermediatecatchevent9"></sequenceFlow>
+    <sequenceFlow id="flow29" sourceRef="messageintermediatecatchevent9" targetRef="MoveRight2"></sequenceFlow>
+    <sequenceFlow id="flow31" sourceRef="MoveDown" targetRef="messageintermediatecatchevent1"></sequenceFlow>
+    <sequenceFlow id="flow32" sourceRef="messageintermediatecatchevent1" targetRef="CloseHand"></sequenceFlow>
+    <sequenceFlow id="flow33" sourceRef="CloseHand" targetRef="messageintermediatecatchevent2"></sequenceFlow>
+    <sequenceFlow id="flow34" sourceRef="messageintermediatecatchevent2" targetRef="MoveUp"></sequenceFlow>
+    <serviceTask id="MoveLeft" name="Move Left" activiti:async="true" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/turn_left?limitDown=-585&amp;limitUp=-615</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow35" sourceRef="MoveUp" targetRef="messageintermediatecatchevent3"></sequenceFlow>
+    <sequenceFlow id="flow36" sourceRef="messageintermediatecatchevent3" targetRef="MoveLeft"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent10" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="LeftFinished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow37" sourceRef="MoveLeft" targetRef="messageintermediatecatchevent10"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent11" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="Right2Finished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow38" sourceRef="MoveRight2" targetRef="messageintermediatecatchevent11"></sequenceFlow>
+    <sequenceFlow id="flow39" sourceRef="messageintermediatecatchevent11" targetRef="MoveDown"></sequenceFlow>
+    <sequenceFlow id="flow40" sourceRef="messageintermediatecatchevent10" targetRef="MoveDown2"></sequenceFlow>
+    <serviceTask id="Move Down3" name="Move Down 3" activiti:async="true" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/move_down</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow41" sourceRef="messageintermediatecatchevent7" targetRef="Move Down3"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent12" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="Down3Finished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow42" sourceRef="Move Down3" targetRef="messageintermediatecatchevent12"></sequenceFlow>
+    <serviceTask id="CloseHand2" name="Close Hand 2" activiti:async="true" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/close_hand</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow43" sourceRef="messageintermediatecatchevent12" targetRef="CloseHand2"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent13" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="HandClosed2"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow44" sourceRef="CloseHand2" targetRef="messageintermediatecatchevent13"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent14" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="Up3Finished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <serviceTask id="MoveRight3" name="Move Right 3" activiti:async="true" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/turn_right?limitDown=-265&amp;limitUp=-295</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow48" sourceRef="messageintermediatecatchevent14" targetRef="MoveRight3"></sequenceFlow>
+    <serviceTask id="MoveDown4" name="Move Down 4" activiti:async="true" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/move_down</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <serviceTask id="OpenHand2" name="Open Hand 2" activiti:async="true" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/open_hand</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <intermediateCatchEvent id="messageintermediatecatchevent15" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="Right3Finished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow49" sourceRef="MoveRight3" targetRef="messageintermediatecatchevent15"></sequenceFlow>
+    <sequenceFlow id="flow50" sourceRef="messageintermediatecatchevent15" targetRef="MoveDown4"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent16" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="Down4Finished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow51" sourceRef="MoveDown4" targetRef="messageintermediatecatchevent16"></sequenceFlow>
+    <sequenceFlow id="flow52" sourceRef="messageintermediatecatchevent16" targetRef="OpenHand2"></sequenceFlow>
+    <intermediateCatchEvent id="messageintermediatecatchevent17" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="HandOpened2"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow54" sourceRef="OpenHand2" targetRef="messageintermediatecatchevent17"></sequenceFlow>
+    <serviceTask id="MoveUp4" name="Move Up 4" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/move_up</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <intermediateCatchEvent id="messageintermediatecatchevent18" name="MessageCatchEvent">
+      <messageEventDefinition messageRef="Up4Finished"></messageEventDefinition>
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow57" sourceRef="MoveUp4" targetRef="messageintermediatecatchevent18"></sequenceFlow>
+    <sequenceFlow id="flow58" sourceRef="messageintermediatecatchevent18" targetRef="endevent1"></sequenceFlow>
+    <sequenceFlow id="flow59" sourceRef="messageintermediatecatchevent17" targetRef="MoveUp4"></sequenceFlow>
+    <serviceTask id="MoveUp3" name="Move Up 3" activiti:async="true" activiti:class="org.wso2.carbon.bpmn.extensions.rest.RESTTask" activiti:extensionId="org.wso2.integrationstudio.bpmn.extensions.restTask.RESTTask">
+      <extensionElements>
+        <activiti:field name="serviceURL">
+          <activiti:string>http://localhost:1880/robotic_arm/move_up</activiti:string>
+        </activiti:field>
+        <activiti:field name="method">
+          <activiti:string>POST</activiti:string>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow60" sourceRef="messageintermediatecatchevent13" targetRef="MoveUp3"></sequenceFlow>
+    <sequenceFlow id="flow61" sourceRef="MoveUp3" targetRef="messageintermediatecatchevent14"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_MovePiece">
+    <bpmndi:BPMNPlane bpmnElement="MovePiece" id="BPMNPlane_MovePiece">
+      <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="70.0" y="20.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveDown" id="BPMNShape_MoveDown">
+        <omgdc:Bounds height="55.0" width="105.0" x="527.0" y="10.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="CloseHand" id="BPMNShape_CloseHand">
+        <omgdc:Bounds height="55.0" width="105.0" x="616.0" y="90.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent1" id="BPMNShape_messageintermediatecatchevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="651.0" y="20.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent2" id="BPMNShape_messageintermediatecatchevent2">
+        <omgdc:Bounds height="35.0" width="35.0" x="529.0" y="100.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent3" id="BPMNShape_messageintermediatecatchevent3">
+        <omgdc:Bounds height="35.0" width="35.0" x="290.0" y="100.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveUp" id="BPMNShape_MoveUp">
+        <omgdc:Bounds height="55.0" width="105.0" x="385.0" y="90.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveDown2" id="BPMNShape_MoveDown2">
+        <omgdc:Bounds height="55.0" width="105.0" x="56.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent5" id="BPMNShape_messageintermediatecatchevent5">
+        <omgdc:Bounds height="35.0" width="35.0" x="220.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="OpenHand" id="BPMNShape_OpenHand">
+        <omgdc:Bounds height="55.0" width="105.0" x="281.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveUp2" id="BPMNShape_MoveUp2">
+        <omgdc:Bounds height="55.0" width="105.0" x="527.0" y="180.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent6" id="BPMNShape_messageintermediatecatchevent6">
+        <omgdc:Bounds height="35.0" width="35.0" x="436.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveRight2" id="BPMNShape_MoveRight2">
+        <omgdc:Bounds height="55.0" width="105.0" x="331.0" y="10.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent7" id="BPMNShape_messageintermediatecatchevent7">
+        <omgdc:Bounds height="35.0" width="35.0" x="680.0" y="190.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
+        <omgdc:Bounds height="35.0" width="35.0" x="810.0" y="378.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent9" id="BPMNShape_messageintermediatecatchevent9">
+        <omgdc:Bounds height="35.0" width="35.0" x="264.0" y="20.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveRight" id="BPMNShape_MoveRight">
+        <omgdc:Bounds height="55.0" width="105.0" x="131.0" y="10.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveLeft" id="BPMNShape_MoveLeft">
+        <omgdc:Bounds height="55.0" width="105.0" x="138.0" y="90.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent10" id="BPMNShape_messageintermediatecatchevent10">
+        <omgdc:Bounds height="35.0" width="35.0" x="70.0" y="100.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent11" id="BPMNShape_messageintermediatecatchevent11">
+        <omgdc:Bounds height="35.0" width="35.0" x="465.0" y="20.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="Move Down3" id="BPMNShape_Move Down3">
+        <omgdc:Bounds height="55.0" width="105.0" x="645.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent12" id="BPMNShape_messageintermediatecatchevent12">
+        <omgdc:Bounds height="35.0" width="35.0" x="550.0" y="280.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="CloseHand2" id="BPMNShape_CloseHand2">
+        <omgdc:Bounds height="55.0" width="105.0" x="401.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent13" id="BPMNShape_messageintermediatecatchevent13">
+        <omgdc:Bounds height="35.0" width="35.0" x="300.0" y="280.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent14" id="BPMNShape_messageintermediatecatchevent14">
+        <omgdc:Bounds height="35.0" width="35.0" x="74.0" y="280.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveRight3" id="BPMNShape_MoveRight3">
+        <omgdc:Bounds height="55.0" width="105.0" x="54.0" y="370.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveDown4" id="BPMNShape_MoveDown4">
+        <omgdc:Bounds height="55.0" width="105.0" x="265.0" y="370.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="OpenHand2" id="BPMNShape_OpenHand2">
+        <omgdc:Bounds height="55.0" width="105.0" x="465.0" y="370.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent15" id="BPMNShape_messageintermediatecatchevent15">
+        <omgdc:Bounds height="35.0" width="35.0" x="201.0" y="375.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent16" id="BPMNShape_messageintermediatecatchevent16">
+        <omgdc:Bounds height="35.0" width="35.0" x="401.0" y="385.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent17" id="BPMNShape_messageintermediatecatchevent17">
+        <omgdc:Bounds height="35.0" width="35.0" x="599.0" y="378.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveUp4" id="BPMNShape_MoveUp4">
+        <omgdc:Bounds height="55.0" width="105.0" x="645.0" y="365.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="messageintermediatecatchevent18" id="BPMNShape_messageintermediatecatchevent18">
+        <omgdc:Bounds height="35.0" width="35.0" x="760.0" y="375.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="MoveUp3" id="BPMNShape_MoveUp3">
+        <omgdc:Bounds height="55.0" width="105.0" x="158.0" y="270.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="flow12" id="BPMNEdge_flow12">
+        <omgdi:waypoint x="161.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="220.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow13" id="BPMNEdge_flow13">
+        <omgdi:waypoint x="255.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="281.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow14" id="BPMNEdge_flow14">
+        <omgdi:waypoint x="386.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="436.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow15" id="BPMNEdge_flow15">
+        <omgdi:waypoint x="471.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="527.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
+        <omgdi:waypoint x="632.0" y="207.0"></omgdi:waypoint>
+        <omgdi:waypoint x="680.0" y="207.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
+        <omgdi:waypoint x="105.0" y="37.0"></omgdi:waypoint>
+        <omgdi:waypoint x="331.0" y="37.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
+        <omgdi:waypoint x="331.0" y="37.0"></omgdi:waypoint>
+        <omgdi:waypoint x="299.0" y="37.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow29" id="BPMNEdge_flow29">
+        <omgdi:waypoint x="299.0" y="37.0"></omgdi:waypoint>
+        <omgdi:waypoint x="331.0" y="37.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow31" id="BPMNEdge_flow31">
+        <omgdi:waypoint x="632.0" y="37.0"></omgdi:waypoint>
+        <omgdi:waypoint x="651.0" y="37.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow32" id="BPMNEdge_flow32">
+        <omgdi:waypoint x="668.0" y="55.0"></omgdi:waypoint>
+        <omgdi:waypoint x="668.0" y="90.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow33" id="BPMNEdge_flow33">
+        <omgdi:waypoint x="616.0" y="117.0"></omgdi:waypoint>
+        <omgdi:waypoint x="564.0" y="117.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow34" id="BPMNEdge_flow34">
+        <omgdi:waypoint x="529.0" y="117.0"></omgdi:waypoint>
+        <omgdi:waypoint x="490.0" y="117.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
+        <omgdi:waypoint x="385.0" y="117.0"></omgdi:waypoint>
+        <omgdi:waypoint x="325.0" y="117.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow36" id="BPMNEdge_flow36">
+        <omgdi:waypoint x="290.0" y="117.0"></omgdi:waypoint>
+        <omgdi:waypoint x="243.0" y="117.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow37" id="BPMNEdge_flow37">
+        <omgdi:waypoint x="138.0" y="117.0"></omgdi:waypoint>
+        <omgdi:waypoint x="105.0" y="117.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
+        <omgdi:waypoint x="436.0" y="37.0"></omgdi:waypoint>
+        <omgdi:waypoint x="465.0" y="37.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow39" id="BPMNEdge_flow39">
+        <omgdi:waypoint x="500.0" y="37.0"></omgdi:waypoint>
+        <omgdi:waypoint x="527.0" y="37.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow40" id="BPMNEdge_flow40">
+        <omgdi:waypoint x="87.0" y="135.0"></omgdi:waypoint>
+        <omgdi:waypoint x="108.0" y="180.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow41" id="BPMNEdge_flow41">
+        <omgdi:waypoint x="697.0" y="225.0"></omgdi:waypoint>
+        <omgdi:waypoint x="697.0" y="270.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
+        <omgdi:waypoint x="645.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="585.0" y="297.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
+        <omgdi:waypoint x="550.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="506.0" y="297.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow44" id="BPMNEdge_flow44">
+        <omgdi:waypoint x="401.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="335.0" y="297.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow48" id="BPMNEdge_flow48">
+        <omgdi:waypoint x="91.0" y="315.0"></omgdi:waypoint>
+        <omgdi:waypoint x="106.0" y="370.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
+        <omgdi:waypoint x="159.0" y="397.0"></omgdi:waypoint>
+        <omgdi:waypoint x="201.0" y="392.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow50" id="BPMNEdge_flow50">
+        <omgdi:waypoint x="236.0" y="392.0"></omgdi:waypoint>
+        <omgdi:waypoint x="265.0" y="397.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow51" id="BPMNEdge_flow51">
+        <omgdi:waypoint x="370.0" y="397.0"></omgdi:waypoint>
+        <omgdi:waypoint x="401.0" y="402.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow52" id="BPMNEdge_flow52">
+        <omgdi:waypoint x="436.0" y="402.0"></omgdi:waypoint>
+        <omgdi:waypoint x="465.0" y="397.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow54" id="BPMNEdge_flow54">
+        <omgdi:waypoint x="570.0" y="397.0"></omgdi:waypoint>
+        <omgdi:waypoint x="599.0" y="395.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow57" id="BPMNEdge_flow57">
+        <omgdi:waypoint x="750.0" y="392.0"></omgdi:waypoint>
+        <omgdi:waypoint x="760.0" y="392.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow58" id="BPMNEdge_flow58">
+        <omgdi:waypoint x="795.0" y="392.0"></omgdi:waypoint>
+        <omgdi:waypoint x="810.0" y="395.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow59" id="BPMNEdge_flow59">
+        <omgdi:waypoint x="634.0" y="395.0"></omgdi:waypoint>
+        <omgdi:waypoint x="645.0" y="392.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow60" id="BPMNEdge_flow60">
+        <omgdi:waypoint x="300.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="263.0" y="297.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow61" id="BPMNEdge_flow61">
+        <omgdi:waypoint x="158.0" y="297.0"></omgdi:waypoint>
+        <omgdi:waypoint x="109.0" y="297.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
