@@ -1,4 +1,4 @@
-# NodeRed Workflow Workflow Management
+# NodeRed Workflow Manager
 
 An approach to workflow management system for embedded devices using [Node-RED](http://nodered.org) for implementation, selection, and execution of BPMN files. See architecture and modules in WorkflowManager.pptx
 
