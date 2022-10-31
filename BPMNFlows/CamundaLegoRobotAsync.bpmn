@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.activiti.org/legorobotasync" exporter="Camunda Modeler" exporterVersion="5.0.0-alpha.1">
+  <message id="MoveFinished" name="MoveFinished" />
+  <message id="PieceThrown" name="PieceThrown" />
+  <process id="LegoRobotAsync" name="Lego Robot Async" isExecutable="true">
+    <startEvent id="startevent1" name="Start" />
+    <endEvent id="endevent1" name="End">
+      <incoming>Flow_0d46jyk</incoming>
+    </endEvent>
+    <sequenceFlow id="flow5" sourceRef="startevent1" targetRef="AASLegoColorSorter01.MoveFeedTrayToFarLeft" />
+    <intermediateCatchEvent id="messageintermediatecatchevent1" name="FinishedMoving">
+      <incoming>Flow_1xphb17</incoming>
+      <messageEventDefinition messageRef="MoveFinished" />
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow9" sourceRef="messageintermediatecatchevent1" targetRef="AASLegoColorSorter01.ThrowCurrentPiece" />
+    <intermediateCatchEvent id="messageintermediatecatchevent2" name="FinishedThrowing">
+      <incoming>Flow_07qnhrb</incoming>
+      <messageEventDefinition messageRef="PieceThrown" />
+    </intermediateCatchEvent>
+    <sequenceFlow id="flow11" sourceRef="messageintermediatecatchevent2" targetRef="AASLegoColorSorter01.MoveFeedTrayToFarRight" />
+    <serviceTask id="AASLegoColorSorter01.MoveFeedTrayToFarLeft" name="AASLegoColorSorter01 MoveFeedTrayToFarLeft" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">http://192.168.56.101:80/robot/move_left</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="Content-Type">application/json</camunda:inputParameter>
+            <camunda:inputParameter name="payload"></camunda:inputParameter>
+            <camunda:outputParameter name="responseMoveFeedTrayToFarLeft">
+              <camunda:script scriptFormat="javascript">connector.getVariable("response");</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </extensionElements>
+      <incoming>flow5</incoming>
+      <outgoing>Flow_1xphb17</outgoing>
+    </serviceTask>
+    <sequenceFlow id="Flow_1xphb17" sourceRef="AASLegoColorSorter01.MoveFeedTrayToFarLeft" targetRef="messageintermediatecatchevent1" />
+    <serviceTask id="AASLegoColorSorter01.ThrowCurrentPiece" name="AASLegoColorSorter01 ThrowCurrentPiece" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">http://192.168.56.101:80/robot/throw_piece</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="Content-Type">application/json</camunda:inputParameter>
+            <camunda:inputParameter name="payload"></camunda:inputParameter>
+            <camunda:outputParameter name="responseThrowCurrentPiece">
+              <camunda:script scriptFormat="javascript">connector.getVariable("response");</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </extensionElements>
+      <incoming>flow9</incoming>
+      <outgoing>Flow_07qnhrb</outgoing>
+    </serviceTask>
+    <sequenceFlow id="Flow_07qnhrb" sourceRef="AASLegoColorSorter01.ThrowCurrentPiece" targetRef="messageintermediatecatchevent2" />
+    <serviceTask id="AASLegoColorSorter01.MoveFeedTrayToFarRight" name="AASLegoColorSorter01 MoveFeedTrayToFarRight" camunda:asyncBefore="true" camunda:asyncAfter="true">
+      <extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">http://192.168.56.101:80/robot/move_right</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="Content-Type">application/json</camunda:inputParameter>
+            <camunda:inputParameter name="payload"></camunda:inputParameter>
+            <camunda:outputParameter name="responseMoveFeedTrayToFarRight">
+              <camunda:script scriptFormat="javascript">connector.getVariable("response");</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+      </extensionElements>
+      <incoming>flow11</incoming>
+      <outgoing>Flow_0d46jyk</outgoing>
+    </serviceTask>
+    <sequenceFlow id="Flow_0d46jyk" sourceRef="AASLegoColorSorter01.MoveFeedTrayToFarRight" targetRef="endevent1" />
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_LegoRobotAsync">
+    <bpmndi:BPMNPlane id="BPMNPlane_LegoRobotAsync" bpmnElement="LegoRobotAsync">
+      <bpmndi:BPMNEdge id="BPMNEdge_flow11" bpmnElement="flow11">
+        <omgdi:waypoint x="767" y="117" />
+        <omgdi:waypoint x="840" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow9" bpmnElement="flow9">
+        <omgdi:waypoint x="485" y="117" />
+        <omgdi:waypoint x="550" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_flow5" bpmnElement="flow5">
+        <omgdi:waypoint x="195" y="117" />
+        <omgdi:waypoint x="280" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xphb17_di" bpmnElement="Flow_1xphb17">
+        <omgdi:waypoint x="380" y="117" />
+        <omgdi:waypoint x="450" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07qnhrb_di" bpmnElement="Flow_07qnhrb">
+        <omgdi:waypoint x="650" y="117" />
+        <omgdi:waypoint x="732" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0d46jyk_di" bpmnElement="Flow_0d46jyk">
+        <omgdi:waypoint x="940" y="117" />
+        <omgdi:waypoint x="1032" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BPMNShape_messageintermediatecatchevent2" bpmnElement="messageintermediatecatchevent2">
+        <omgdc:Bounds x="732" y="100" width="35" height="35" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="708" y="135" width="87" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_startevent1" bpmnElement="startevent1">
+        <omgdc:Bounds x="160" y="100" width="35" height="35" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="165" y="135" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_09i7rua_di" bpmnElement="AASLegoColorSorter01.MoveFeedTrayToFarLeft">
+        <omgdc:Bounds x="280" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_messageintermediatecatchevent1" bpmnElement="messageintermediatecatchevent1">
+        <omgdc:Bounds x="450" y="100" width="35" height="35" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="429" y="135" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0pdea9m_di" bpmnElement="AASLegoColorSorter01.ThrowCurrentPiece">
+        <omgdc:Bounds x="550" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_01knxo1_di" bpmnElement="AASLegoColorSorter01.MoveFeedTrayToFarRight">
+        <omgdc:Bounds x="840" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_endevent1" bpmnElement="endevent1">
+        <omgdc:Bounds x="1032" y="100" width="35" height="35" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="1040" y="135" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

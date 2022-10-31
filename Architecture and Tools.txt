@@ -4,12 +4,15 @@ See architecture and modules in WorkflowManager.pptx
 See BD/process.sql
 
 2. Code in Node-RED 
-See Flows in NodeREDFlows/WorkflowManager_v0.1.json
+See Flows in /NodeREDFlows
 
-3. Generate /edit BPMN files
-WSO2 Integration Studio 8.0.0
-See BPMNFlows
+3 Dependencies:
+node-red-dashboard
 
-4. Run 
+4. Generate /edit BPMN files
+WSO2 Integration Studio 8.0.0, Camunda Modeler 5.0+
+See examples in /BPMNFlows
+
+5. Run 
 Use Postman as the client
 See PostMan folder
