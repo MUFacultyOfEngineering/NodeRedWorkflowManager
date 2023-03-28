@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1c66dom" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.16.0">
+  <bpmn:process id="RosTurtleBot3_experimet_01" name="RosTurtleBot3_experimet_01" isExecutable="true" camunda:versionTag="1.0.0">
+    <bpmn:startEvent id="Event_1qkd2ne" name="Start">
+      <bpmn:outgoing>Flow_0ryr9jx</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0ryr9jx" sourceRef="Event_1qkd2ne" targetRef="Shell_TurtleBot3_001.RestService01" />
+    <bpmn:endEvent id="Event_0znjshr" name="End">
+      <bpmn:incoming>Flow_0crw07k</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="Shell_TurtleBot3_001.RestService01" name="Shell_TurtleBot3_001 MoveToGoal">
+      <bpmn:extensionElements>
+        <camunda:connector>
+          <camunda:inputOutput>
+            <camunda:inputParameter name="url">http://172.17.101.9:5000/move</camunda:inputParameter>
+            <camunda:inputParameter name="method">POST</camunda:inputParameter>
+            <camunda:inputParameter name="Content-Type">application/json</camunda:inputParameter>
+            <camunda:inputParameter name="payload">{"x": 1.5, "y": 1.5}</camunda:inputParameter>
+            <camunda:outputParameter name="responseRestService01">
+              <camunda:script scriptFormat="javascript">connector.getVariable("response");</camunda:script>
+            </camunda:outputParameter>
+          </camunda:inputOutput>
+          <camunda:connectorId>http-connector</camunda:connectorId>
+        </camunda:connector>
+        <camunda:properties>
+          <camunda:property name="aasIdentifier" value="AssetAdministrationShell---1DEFB5FD" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0ryr9jx</bpmn:incoming>
+      <bpmn:outgoing>Flow_0crw07k</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_0crw07k" sourceRef="Shell_TurtleBot3_001.RestService01" targetRef="Event_0znjshr" />
+  </bpmn:process>
+  <bpmn:message id="Message_2hvd842" name="Piece has been thrown" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="RosTurtleBot3_experimet_01">
+      <bpmndi:BPMNShape id="Event_1qkd2ne_di" bpmnElement="Event_1qkd2ne">
+        <dc:Bounds x="152" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="158" y="165" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0znjshr_di" bpmnElement="Event_0znjshr">
+        <dc:Bounds x="552" y="122" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="560" y="165" width="20" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ad57lj_di" bpmnElement="Shell_TurtleBot3_001.RestService01">
+        <dc:Bounds x="320" y="100" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0ryr9jx_di" bpmnElement="Flow_0ryr9jx">
+        <di:waypoint x="188" y="140" />
+        <di:waypoint x="320" y="140" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0crw07k_di" bpmnElement="Flow_0crw07k">
+        <di:waypoint x="420" y="140" />
+        <di:waypoint x="552" y="140" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

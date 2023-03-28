@@ -1,0 +1,53 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Red",
+          "value": "Red"
+        },
+        {
+          "label": "Yellow",
+          "value": "Yellow"
+        },
+        {
+          "label": "Green",
+          "value": "Green"
+        },
+        {
+          "label": "Blue",
+          "value": "Blue"
+        }
+      ],
+      "label": "Piece Color",
+      "type": "select",
+      "id": "Field_1o1yria",
+      "key": "SelectedPieceColor",
+      "validate": {
+        "required": true
+      },
+      "defaultValue": "Red"
+    },
+    {
+      "label": "Quantity",
+      "type": "number",
+      "id": "Field_0eijs4h",
+      "key": "QuantityToDispatch",
+      "defaultValue": 1,
+      "validate": {
+        "required": true,
+        "min": 1,
+        "max": 3
+      }
+    }
+  ],
+  "type": "default",
+  "id": "frmManufacturingOrderLegoColorSorter",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.9.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 7
+}

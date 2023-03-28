@@ -1,0 +1,29 @@
+{
+  "components": [
+    {
+      "label": "Notes",
+      "type": "textfield",
+      "id": "Field_1uhwrfy",
+      "key": "txtNotes",
+      "validate": {
+        "maxLength": 200
+      }
+    },
+    {
+      "label": "I confirm that the materials requested in this order has been checked and all the materials are packed for delivery",
+      "type": "checkbox",
+      "id": "Field_17yig5x",
+      "key": "field_12vmifv",
+      "defaultValue": true
+    }
+  ],
+  "type": "default",
+  "id": "frmQualityInspection",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.9.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.18.0",
+  "schemaVersion": 7
+}

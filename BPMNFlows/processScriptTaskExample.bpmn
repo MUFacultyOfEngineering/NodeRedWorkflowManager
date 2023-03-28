@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1d6kirk" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.9.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="Process_0coimzc" name="processScripTaskExample" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1oxp8dt</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:scriptTask id="Activity_1x7k524" name="Initialize counter dipatched pieces" scriptFormat="javascript" camunda:resultVariable="countNumberDispatchedPieces">
+      <bpmn:incoming>Flow_1oxp8dt</bpmn:incoming>
+      <bpmn:outgoing>Flow_0o60a65</bpmn:outgoing>
+      <bpmn:script>0</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:scriptTask id="Activity_0jdipzs" name="Increment Number Dispatched Pieces" scriptFormat="javascript" camunda:resultVariable="countNumberDispatchedPieces">
+      <bpmn:incoming>Flow_0o60a65</bpmn:incoming>
+      <bpmn:incoming>Flow_09go6ic</bpmn:incoming>
+      <bpmn:outgoing>Flow_0na7s31</bpmn:outgoing>
+      <bpmn:script>countNumberDispatchedPieces + 1</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_05hargr">
+      <bpmn:incoming>Flow_0mnswq7</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1oxp8dt" sourceRef="StartEvent_1" targetRef="Activity_1x7k524" />
+    <bpmn:sequenceFlow id="Flow_0o60a65" sourceRef="Activity_1x7k524" targetRef="Activity_0jdipzs" />
+    <bpmn:sequenceFlow id="Flow_0na7s31" sourceRef="Activity_0jdipzs" targetRef="Gateway_0grlzzn" />
+    <bpmn:exclusiveGateway id="Gateway_0grlzzn" name="Required Number Pieces Complete?">
+      <bpmn:incoming>Flow_0na7s31</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mnswq7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_09go6ic</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0mnswq7" name="Yes" sourceRef="Gateway_0grlzzn" targetRef="Event_05hargr">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">countNumberDispatchedPieces == 3</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_09go6ic" name="No" sourceRef="Gateway_0grlzzn" targetRef="Activity_0jdipzs">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression" language="javascript">countNumberDispatchedPieces != 3</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_0coimzc">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_01lkpho" bpmnElement="Activity_1x7k524">
+        <dc:Bounds x="280" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_1as21dr" bpmnElement="Activity_0jdipzs">
+        <dc:Bounds x="490" y="77" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_05hargr_di" bpmnElement="Event_05hargr">
+        <dc:Bounds x="962" y="242" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_0h39op7" bpmnElement="Gateway_0grlzzn" isMarkerVisible="true" color:background-color="#fff" color:border-color="#000">
+        <dc:Bounds x="725" y="235" width="50" height="50" />
+        <bpmndi:BPMNLabel color:color="#000">
+          <dc:Bounds x="705" y="294.5" width="90" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1oxp8dt_di" bpmnElement="Flow_1oxp8dt">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="280" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0o60a65_di" bpmnElement="Flow_0o60a65">
+        <di:waypoint x="380" y="117" />
+        <di:waypoint x="490" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0na7s31_di" bpmnElement="Flow_0na7s31">
+        <di:waypoint x="590" y="117" />
+        <di:waypoint x="750" y="117" />
+        <di:waypoint x="750" y="235" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mnswq7_di" bpmnElement="Flow_0mnswq7">
+        <di:waypoint x="775" y="260" />
+        <di:waypoint x="962" y="260" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="860" y="242" width="18" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09go6ic_di" bpmnElement="Flow_09go6ic">
+        <di:waypoint x="725" y="260" />
+        <di:waypoint x="540" y="260" />
+        <di:waypoint x="540" y="157" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="625" y="242" width="15" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

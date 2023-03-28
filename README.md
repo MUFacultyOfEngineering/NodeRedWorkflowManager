@@ -14,18 +14,21 @@ NodeRed WM is an approach to workflow management system for embedded devices usi
 # Test it
 Bpmn workflow recipes are provided under the [/BPMNFlows/](/BPMNFlows/) folder, some of those recipes are written in Camunda and Activiti (WSO2).
 1. Upload any .bpmn recipe using the endpoint ```http://localhost:1880/upload_recipe``` set the actual xml as raw request body.
-2. Execute any process by using the endpoint ```http://localhost:1880/start_process?processname={YourProcessName}```. 
-- 2.1 Optional parameters: 
-	- ```delayTaskExecution```: int parameter to delay execution of each task in milliseconds. It is ```0``` by default.
-	- ```validateContext```: boolean parameter to indicate whether the Node-RED WM should validate context for service re-selection during execution. It is ```false``` by default.
+2. Execution options:
+- Using the workflow executor tool. Go to the dashboard and select ```Workflow Executor tool``` in the menu. Fill-up the form and press the ```Submit``` button.
+- Using the API endpoint ```http://localhost:1880/start_process?processname={YourProcessName}```. 
+	- Optional parameters: 
+		- ```delayTaskExecution```: int parameter to delay execution of each task in milliseconds. It is ```0``` by default.
+		- ```validateContext```: boolean parameter to indicate whether the Node-RED WM should validate context for service re-selection during execution. It is ```false``` by default.
 3. You can monitor the execution by looking at the debug panel in Node-RED or using our Workflow Monitor Tool
 - Node-RED's debug panel
 
 ![](NodeRedWMProcessExecution.jpg)
 
-- Worflow Monitor Tool ```http://localhost:1880/ui```
+- Worflow Monitor and Executor tools ```http://localhost:1880/ui```
 
 ![](NodeRedWMWorkflowMonitorTool.jpg)
+![](NodeRedWMWorkflowExecutorTool.jpg)
 
 # Compatibility
 1. NodeRed WM has been tested using recipes created in Camunda and WSO2 Integration Studio 8.0.0. 
@@ -37,6 +40,8 @@ Bpmn workflow recipes are provided under the [/BPMNFlows/](/BPMNFlows/) folder, 
 - ParallelGateway
 - ExclusiveGateway
 - IntermediateCatchEvent
+- SubProcess
+- ScriptTask
 
 When NodeRed WM tries to execute an unsupported task type, it will be just set as finished and the process will continue its execution.
 
