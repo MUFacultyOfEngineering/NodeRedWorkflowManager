@@ -7,9 +7,16 @@ NodeRed WM is an approach to workflow management system for embedded devices usi
 3. MySql database: Workflow recipe repository. Any version can be used.
 
 # Installation steps
-1. Create database structure by executing the database script [/DB/process.sql](/DB/process.sql).
-2. Import the flows in Node-RED [/NodeREDFlows/AllFlows.json](/NodeREDFlows/AllFlows.json)
-3. [Context Analyzer](https://github.com/MUFacultyOfEngineering/ContextAnalyzer): This is optional if you want to validate context for service re-selection at process runtime. See installation steps in the link provided.
+Two ways, manual and docker.
+1. Manual
+1.1. Create database structure by executing the database script [/DB/process.sql](/DB/process.sql).
+1.2. Import the flows in Node-RED [/NodeREDFlows/AllFlows.json](/NodeREDFlows/AllFlows.json)
+2. Docker
+2.1. Open a terminal window and CD to this directory. Write and execute the following command: ```docker compose up```
+2.2. Wait untill the installation completes and open your browser to ```http://localhost:1880/ui``` to open the user interface.
+
+
+[Context Analyzer](https://github.com/MUFacultyOfEngineering/ContextAnalyzer): This is optional if you want to validate context for service re-selection at process runtime. See installation steps in the link provided.
 
 # Test it
 Bpmn workflow recipes are provided under the [/BPMNFlows/](/BPMNFlows/) folder, some of those recipes are written in Camunda and Activiti (WSO2).
