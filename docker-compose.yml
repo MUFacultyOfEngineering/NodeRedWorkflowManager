@@ -36,4 +36,4 @@ services:
       - PMA_HOST=mariadb
       - PMA_PORT=3306
     ports:
-      - "8080:80"
+      - "8082:80"

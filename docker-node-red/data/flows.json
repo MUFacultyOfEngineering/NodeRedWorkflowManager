@@ -360,7 +360,7 @@
         "type": "function",
         "z": "fad55130271430dc",
         "name": "GetInput",
-        "func": "var serviceTaskId = msg.contextValidation.serviceTaskId;\nvar serviceQoS = msg.contextValidation.serviceTaskQoS; //this one should come with the process recipe\nvar arServiceTaskId = serviceTaskId.split(\".\");\nvar aasIdShort = arServiceTaskId[0];\nvar serviceName = arServiceTaskId[1];\n\n//get env vars\nvar server = env.get(\"ContextAwareServer\");\nvar protocol = env.get(\"ContextAwareProtocol\");\nvar port = env.get(\"ContextAwarePort\");\n\n//build url\nmsg.url = `${protocol}://${server}:${port}/ContextAwareAasBpmn/api/ContextAnalyzer/ValidateContextSelectBestService`;\nmsg.payload = {\n    \"aasIdShort\": aasIdShort,\n    \"serviceName\": serviceName,\n    \"qualityParameters\": serviceQoS\n};\n\nreturn msg;",
+        "func": "//get env vars\nvar server = env.get(\"ContextAwareServer\");\nvar protocol = env.get(\"ContextAwareProtocol\");\nvar port = env.get(\"ContextAwarePort\");\n\n//build url\nmsg.url = `${protocol}://${server}:${port}/ContextAwareAasBpmn/api/ContextAnalyzer/ValidateContextSelectBestService`;\nmsg.payload = {\n    \"aasIdShort\": msg.contextValidation.aasIdShort,\n    \"serviceName\": msg.contextValidation.serviceName,\n    \"qualityParameters\": msg.contextValidation.serviceTaskQoS\n};\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3577,8 +3577,15 @@
         "type": "subflow:fad55130271430dc",
         "z": "0494be47ac055167",
         "name": "",
-        "x": 230,
-        "y": 380,
+        "env": [
+            {
+                "name": "ContextAwareServer",
+                "value": "192.168.56.1",
+                "type": "str"
+            }
+        ],
+        "x": 250,
+        "y": 440,
         "wires": [
             [
                 "359ae4b37d4fa546"
@@ -3590,7 +3597,7 @@
         "type": "function",
         "z": "0494be47ac055167",
         "name": "prepareServiceContextValidation",
-        "func": "//QoS could come with the recipe under the <serviceTask> element or in the request of start_process\nvar serviceTaskQoS = [];\nvar serviceTaskXmlObj = msg.serviceTaskXmlObj;\n\n//validate qos:parameters exists\nvar arQosParametersXml = serviceTaskXmlObj.extensionElements[0][\"qos:parameters\"];\nif (!arQosParametersXml) {\n    msg.contextValidation = {\n        serviceTaskId: msg.activeTask.bpmn_id,\n        serviceTaskQoS: []\n    };\n    return msg;\n}\n\n//validate qos:parameter exists\narQosParametersXml = arQosParametersXml[0][\"qos:parameter\"];\nif (!arQosParametersXml){\n    msg.contextValidation = {\n        serviceTaskId: msg.activeTask.bpmn_id,\n        serviceTaskQoS: []\n    };\n    return msg;\n}\n\n//loop params and set evaluation expression\nfor (let i = 0; i < arQosParametersXml.length; i++) {\n    const qosParameterName = arQosParametersXml[i].$[\"name\"];\n    const qosParameterCondition = arQosParametersXml[i].$[\"condition\"];\n    const qosParameterValue = arQosParametersXml[i].$[\"value\"];\n    const evaluationExpression = `${qosParameterName} ${qosParameterCondition} ${qosParameterValue}`;\n    \n    serviceTaskQoS.push({\n        \"parameterName\": qosParameterName,\n        \"qualityParameterEvaluationExpression\": evaluationExpression\n    });\n}\n\n//set qos conditions to msg\nmsg.contextValidation = {\n    serviceTaskId: msg.activeTask.bpmn_id,\n    serviceTaskQoS: serviceTaskQoS\n};\nreturn msg;",
+        "func": "//QoS could come with the recipe under the <serviceTask> element or in the request of start_process\nvar serviceTaskQoS = [];\nvar serviceTaskXmlObj = msg.serviceTaskXmlObj;\nmsg.contextValidation = {\n    aasIdShort: \"\",\n    serviceName: \"\",\n    serviceTaskQoS: []\n};\n\n//get and set serviceTask name\nmsg.contextValidation.serviceName = msg.activeTask.bpmn_id.split(\".\")[1];\n\n//get aasIdShort. First validate camunda:properties exists\nvar arCamundaPropertiesXml = serviceTaskXmlObj.extensionElements[0][\"camunda:properties\"];\nif (!arCamundaPropertiesXml) {    \n    return msg;\n}\n\n//validate camunda:property exists\narCamundaPropertiesXml = arCamundaPropertiesXml[0][\"camunda:property\"];\nif (!arCamundaPropertiesXml) {\n    return msg;\n}\n\n//set aasIdShort\nmsg.contextValidation.aasIdShort = arCamundaPropertiesXml.find(x => x.$[\"name\"] == \"aasIdShort\")?.$[\"value\"];\n\n//validate qos:parameters exists\nvar arQosParametersXml = serviceTaskXmlObj.extensionElements[0][\"qos:parameters\"];\nif (!arQosParametersXml || !arQosParametersXml[0]) {\n    return msg;\n}\n\n//validate qos:parameter exists\narQosParametersXml = arQosParametersXml[0][\"qos:parameter\"];\nif (!arQosParametersXml){\n    return msg;\n}\n\n//loop params and set evaluation expression\nfor (let i = 0; i < arQosParametersXml.length; i++) {\n    const qosParameterName = arQosParametersXml[i].$[\"name\"];\n    const qosParameterCondition = arQosParametersXml[i].$[\"condition\"];\n    const qosParameterValue = arQosParametersXml[i].$[\"value\"];\n    const evaluationExpression = `${qosParameterName} ${qosParameterCondition} ${qosParameterValue}`;\n    \n    msg.contextValidation.serviceTaskQoS.push({\n        \"parameterName\": qosParameterName,\n        \"qualityParameterEvaluationExpression\": evaluationExpression\n    });\n}\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -3600,8 +3607,7 @@
         "y": 320,
         "wires": [
             [
-                "b412e7f44a4bc1f8",
-                "2c3bfa1535c02a58"
+                "1b8115fca77b5668"
             ]
         ]
     },
@@ -3623,8 +3629,8 @@
         "checkall": "true",
         "repair": false,
         "outputs": 2,
-        "x": 490,
-        "y": 380,
+        "x": 550,
+        "y": 440,
         "wires": [
             [
                 "568248b9ea80334e"
@@ -3653,7 +3659,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 570,
+        "x": 830,
         "y": 440,
         "wires": [
             [
@@ -3704,7 +3710,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 260,
-        "y": 440,
+        "y": 500,
         "wires": []
     },
     {
@@ -3723,6 +3729,36 @@
         "x": 720,
         "y": 80,
         "wires": []
+    },
+    {
+        "id": "1b8115fca77b5668",
+        "type": "switch",
+        "z": "0494be47ac055167",
+        "name": "QoS Conditions Provided?",
+        "property": "contextValidation.serviceTaskQoS",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 260,
+        "y": 380,
+        "wires": [
+            [
+                "b412e7f44a4bc1f8",
+                "2c3bfa1535c02a58"
+            ],
+            [
+                "568248b9ea80334e"
+            ]
+        ]
     },
     {
         "id": "7f6858ea552d1904",
@@ -4574,7 +4610,7 @@
         "type": "function",
         "z": "65206e2dbdb6ca65",
         "name": "prepareDeleteActiveProcesses",
-        "func": "msg.topic = `delete from process_instance where status != 'Finished';`;\nreturn msg;",
+        "func": "msg.topic = `update process_instance\n             set status = 'Finished'\n             where status != 'Finished';`;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
